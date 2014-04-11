@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app>
+    <head></head>
+    <body>
+        <!-- <div class='container' ng-init='customers=[{name:"John Doe", city:"New York"},{name:"Jane Doe", city:"California"},{name:"Smoky Dog", city:"New York"}]'> -->
+        <div class='container' ng-controller='ngappController'>
+            Name: <input type='text' ng-model='nameTxt' /> {{ name }}
+            
+            <ul>
+                <!-- filters -->
+                <li ng-repeat='cust in customers | filter:nameTxt | orderBy:name'> {{ cust.name | uppercase }} - {{ cust.city }} </li>
+            </ul>
+        </div>
+        <script src='js/angular.min.js'></script>
+        
+        <!-- controllers --> 
+        <script>
+            function ngappController( $scope )
+            {
+                $scope.customers =  [
+                                {name:"John Doe", city:"San Francisco"},
+                                {name:"Jane Doe", city:"California"},
+                                {name:"Smoky Dog", city:"New York"}
+                                    ];
+            }
+        </script> 
+        
+    </body>
+</html>

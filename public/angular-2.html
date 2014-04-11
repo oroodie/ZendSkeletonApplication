@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app='demoApp'>
+    <head></head>
+    <body>
+        <!-- Placeholder for the View -->
+        <div ng-view=""></div>
+        
+        <script src='js/angular.min.js'></script>
+        <script src='js/angular-route.js'></script>
+            
+        <!-- modular structure -->
+        <script>
+            
+            var demoApp = angular.module( 'demoApp', ['ngRoute'] ) // module name, DI modules
+                                        
+                .factory( 'ngappFactory', function()
+                            {
+                                var factory = {};
+                                var customers =  [
+                                                {name:"John Doe", city:"San Francisco"},
+                                                {name:"Jane Doe", city:"California"},
+                                                {name:"Smoky Dog", city:"New York"}
+                                                 ];
+                                                  
+                                factory.getCustomers = function(){ return customers; }
+                                
+                                return factory;
+                            })
+                            
+                .controller( 'ngappController', function( $scope, ngappFactory ) // $scope, DI f
+                            {
+                                console.log(ngappFactory);
+                                
+                                $scope.customers = [];
+                                
+                                init();
+                                
+                                function init()
+                                {                                 
+                                    $scope.customers = ngappFactory.getCustomers();   
+                                }  
+                                console.log($scope);                                                              
+                                
+                                $scope.addCustomer = function()
+                                { 
+                                    $scope.customers.push( 
+                                         { 
+                                             name: $scope.newCustomer.name ,
+                                             city: $scope.newCustomer.city 
+                                         } ); 
+                                }
+                            })
+                            
+                .config( function( $routeProvider )
+                            {
+                                $routeProvider
+                                        .when('/', {            controller:'ngappController', templateUrl:'angularTPL/View1.html' })
+                                        .when('/view2', {       controller:'ngappController', templateUrl:'angularTPL/View2.html' })
+                                        .otherwise({            redirectTo:'/' });
+                                console.log($routeProvider);
+                            });
+
+            </script>
+    </body>
+</html>
